@@ -1,6 +1,8 @@
 const getState = ({ getStore, getActions, setStore }) => {
   return {
     store: {
+      permiso: false,
+      user: "",
       message: null,
       demo: [
         {
@@ -19,6 +21,64 @@ const getState = ({ getStore, getActions, setStore }) => {
       // Use getActions to call a function within a fuction
       exampleFunction: () => {
         getActions().changeColor(0, "green");
+      },
+
+      privado: () => {
+        var myHeaders = new Headers();
+        myHeaders.append(
+          "Authorization",
+          `Bearer ${sessionStorage.getItem("token")} `
+        );
+
+        var raw = "";
+
+        var requestOptions = {
+          method: "GET",
+          headers: myHeaders,
+          body: raw,
+          redirect: "follow",
+        };
+
+        fetch(
+          "https://3001-4geeksacade-reactflaskh-ac4f3lrs77n.ws-eu67.gitpod.io/api/privada",
+          requestOptions
+        )
+          .then((response) => response.json())
+          .then((result) => {
+            console.log(result);
+            setStore({ user: result.email });
+          })
+          .catch((error) => console.log("error", error));
+      },
+
+      login: (email, password) => {
+        var myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
+
+        var raw = JSON.stringify({
+          email: email,
+          password: password,
+        });
+
+        var requestOptions = {
+          method: "POST",
+          headers: myHeaders,
+          body: raw,
+          redirect: "follow",
+        };
+
+        fetch(
+          "https://3001-4geeksacade-reactflaskh-ac4f3lrs77n.ws-eu67.gitpod.io/api/login",
+          requestOptions
+        )
+          .then((response) => response.json())
+          .then((result) => {
+            console.log(result.access_token);
+            alert(result.mensaje);
+            sessionStorage.setItem("token", result.access_token);
+          })
+
+          .catch((error) => console.log("error", error));
       },
 
       register: (email, password) => {

@@ -32,3 +32,20 @@ def register():
         db.session.commit()
 
         return jsonify(body),201
+
+@api.route('/login', methods=['POST'])
+def login():
+    body= request.get_json()
+    # tengo que comprobar si esxise un usuario con mismo correo en la base de datos
+    one_people = User.query.filter_by(email=body['email'], password=body['password']).first()
+    if one_people:
+        token= create_access_token(identity='email')
+        return jsonify({"access_token": token, "mensaje": "inicio de sesion correcto"}), 200
+    else:
+        return jsonify({"error": "no existe usuario registrado con esos datos"}),418
+
+@api.route('/privada', methods=['GET'])
+@jwt_required()
+def privada():
+    identidad= get_jwt_identity()
+    return jsonify({"mensaje": "tienes permiso para entrar", "permiso": True, "email":identidad})
