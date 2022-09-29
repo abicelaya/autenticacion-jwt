@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useContext } from "react";
 import { Context } from "../store/appContext";
+import { Link } from "react-router-dom";
 
 export const Login = () => {
   const [email, setEmail] = useState("");
@@ -52,15 +53,17 @@ export const Login = () => {
             Check me out
           </label>
         </div>
-        <button
-          type="submit"
-          onClick={() => {
-            actions.login(email, password);
-          }}
-          className="btn btn-primary"
-        >
-          Submit
-        </button>
+        <Link to="/perfil">
+          <button
+            type="submit"
+            onClick={() => {
+              actions.login(email, password);
+            }}
+            className="btn btn-primary"
+          >
+            Submit
+          </button>
+        </Link>
       </form>
     </div>
   );

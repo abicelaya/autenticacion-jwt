@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useContext } from "react";
 import { Context } from "../store/appContext";
+import { Link } from "react-router-dom";
 
 export const Register = () => {
   const [email, setEmail] = useState("");
@@ -8,6 +9,7 @@ export const Register = () => {
   useEffect(() => {}, [email, password]);
   return (
     <div className="container">
+      <h1>Signup</h1>
       <form
         onSubmit={(e) => {
           e.preventDefault();
@@ -51,15 +53,17 @@ export const Register = () => {
             Check me out
           </label>
         </div>
-        <button
-          type="submit"
-          onClick={() => {
-            actions.register(email, password);
-          }}
-          className="btn btn-primary"
-        >
-          Submit
-        </button>
+        <Link to="/perfil">
+          <button
+            type="submit"
+            onClick={() => {
+              actions.register(email, password);
+            }}
+            className="btn btn-primary"
+          >
+            Submit
+          </button>
+        </Link>
       </form>
     </div>
   );
