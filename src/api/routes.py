@@ -39,7 +39,7 @@ def login():
     # tengo que comprobar si esxise un usuario con mismo correo en la base de datos
     one_people = User.query.filter_by(email=body['email'], password=body['password']).first()
     if one_people:
-        token= create_access_token(identity='email')
+        token= create_access_token(identity=body['email'])
         return jsonify({"access_token": token, "mensaje": "inicio de sesion correcto"}), 200
     else:
         return jsonify({"error": "no existe usuario registrado con esos datos"}),418
@@ -48,4 +48,5 @@ def login():
 @jwt_required()
 def privada():
     identidad= get_jwt_identity()
+    print(identidad)
     return jsonify({"mensaje": "tienes permiso para entrar", "permiso": True, "email":identidad})

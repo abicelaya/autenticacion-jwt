@@ -35,7 +35,7 @@ const getState = ({ getStore, getActions, setStore }) => {
         var requestOptions = {
           method: "GET",
           headers: myHeaders,
-          body: raw,
+          
           redirect: "follow",
         };
 
@@ -43,12 +43,16 @@ const getState = ({ getStore, getActions, setStore }) => {
           "https://3001-4geeksacade-reactflaskh-ac4f3lrs77n.ws-eu67.gitpod.io/api/privada",
           requestOptions
         )
-          .then((response) => response.json())
+          .then((response) => {
+            if (response.status > 399) {
+              throw new Error('Something went wrong');
+            }
+            return response.json()})
           .then((result) => {
             console.log(result);
-            setStore({ user: result.email });
+            setStore({ user: result.email, permiso: true });
           })
-          .catch((error) => console.log("error", error));
+          .catch((error) => window.location = "/");
       },
 
       login: (email, password) => {
@@ -97,13 +101,15 @@ const getState = ({ getStore, getActions, setStore }) => {
           redirect: "follow",
         };
 
-        fetch(
+       fetch(
           "https://3001-4geeksacade-reactflaskh-ac4f3lrs77n.ws-eu67.gitpod.io/api/register",
           requestOptions
         )
           .then((response) => response.text())
           .then((result) => console.log(result))
           .catch((error) => console.log("error", error));
+
+
       },
 
       getMessage: async () => {

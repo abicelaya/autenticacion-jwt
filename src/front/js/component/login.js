@@ -53,7 +53,7 @@ export const Login = () => {
             Check me out
           </label>
         </div>
-        <Link to="/perfil">
+        <Link to="/privada">
           <button
             type="submit"
             onClick={() => {

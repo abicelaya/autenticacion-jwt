@@ -53,7 +53,7 @@ export const Register = () => {
             Check me out
           </label>
         </div>
-        <Link to="/perfil">
+        <Link to="/login">
           <button
             type="submit"
             onClick={() => {
